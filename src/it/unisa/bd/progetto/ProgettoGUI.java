@@ -25,6 +25,9 @@ public class ProgettoGUI {
 
     public ProgettoGUI() {
         connect = new Connect("progetto", "root", "password");
+        /**
+         * Lista delle opzioni
+         */
         BoxOpt opt = Operation.createDefaultOpt();
         ArrayList<JTextField> inputText = new ArrayList<>();
         inputText.add(inputTxt1);
@@ -34,9 +37,16 @@ public class ProgettoGUI {
         inputText.add(inputTxt5);
         inputText.add(inputTxt6);
 
+        /**
+         * Inserisci le opzioni nel combo box
+         */
         for (int i = 0; i < opt.getSize(); ++i) {
             optList.addItem(opt.getIndex(i));
         }
+
+        /**
+         * Nascondi inizialmente ogni pannello
+         */
         outputPanel.setVisible(false);
         inputPanel.setVisible(false);
 
@@ -55,6 +65,9 @@ public class ProgettoGUI {
                 //System.out.println(ib.getCmd());
                 try {
                     ResultSet rs = Operation.runSelect(connect, ib);
+                    /**
+                     * Serve per pulire il textArea
+                     */
                     outputArea.setText("");
                     /**
                      * Prendi i metadati per poter capire quante colonne stampare

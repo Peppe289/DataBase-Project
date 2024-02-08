@@ -24,6 +24,9 @@ public class Connect {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // usa l'url di default se non è specificato
             this.url = default_url + name_db;
+            /**
+             * Ci connettiamo qui al server
+             */
             this.con = DriverManager.getConnection(url, user, password);
             System.out.println("Connessione OK \n");
         }
@@ -40,6 +43,9 @@ public class Connect {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // usa l'url di default se non è specificato
             this.url = Connect.addr + addr + ":" + port + "/" + name_db;
+            /**
+             * Ci connettiamo qui al server
+             */
             this.con = DriverManager.getConnection(url, user, password);
             System.out.println("Connessione OK \n");
         }
