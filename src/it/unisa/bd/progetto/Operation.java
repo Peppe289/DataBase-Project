@@ -11,24 +11,44 @@ import java.util.ArrayList;
  */
 public class Operation {
 
-    static public ResultSet runOperation(PreparedStatement ps) throws SQLException {
-        return ps.executeQuery();
+    static public int runUpdate(PreparedStatement ps) throws SQLException {
+        return ps.executeUpdate();
     }
 
-    static public ResultSet runOperation(Connect con, ItemBox item) throws SQLException {
+    static public int runUpdate(Connect con, ItemBox item) throws SQLException {
         PreparedStatement ps = con.getCon().prepareStatement(item.getCmd());
-        return runOperation(ps);
+        return runUpdate(ps);
     }
 
-    static public ResultSet runOperation(Connect con, ItemBox item, ArrayList<String> ps_set) throws SQLException {
+    static public int runUpdate(Connect con, ItemBox item, ArrayList<String> ps_set) throws SQLException {
         PreparedStatement ps = con.getCon().prepareStatement(item.getCmd());
 
         // setta lo statement con l'array che abbiamo passato
-        for (int i = 0; i != ps_set.size(); ++i) {
-            ps.setString(i, ps_set.get(i));
+        for (int i = 1; i <= ps_set.size(); ++i) {
+            ps.setString(i, ps_set.get(i - 1));
         }
 
-        return runOperation(ps);
+        return runUpdate(ps);
+    }
+
+    static public ResultSet runSelect(PreparedStatement ps) throws SQLException {
+        return ps.executeQuery();
+    }
+
+    static public ResultSet runSelect(Connect con, ItemBox item) throws SQLException {
+        PreparedStatement ps = con.getCon().prepareStatement(item.getCmd());
+        return runSelect(ps);
+    }
+
+    static public ResultSet runSelect(Connect con, ItemBox item, ArrayList<String> ps_set) throws SQLException {
+        PreparedStatement ps = con.getCon().prepareStatement(item.getCmd());
+
+        // setta lo statement con l'array che abbiamo passato
+        for (int i = 1; i <= ps_set.size(); ++i) {
+            ps.setString(i, ps_set.get(i - 1));
+        }
+
+        return runSelect(ps);
     }
 
     static BoxOpt createDefaultOpt() {
@@ -76,9 +96,8 @@ public class Operation {
                 "\t)\n" +
                 ");", ItemBox.Type.SELECT));
 
-        boxOpt.addBoxOpt(new ItemBox("Inserimento dati nella tabella PRODOTTO", "INSERT INTO PRODOTTO (marca, dimensione, costo, descrizione, sigla)" +
-                "VALUES ('Bosh', 20.5, 300, 'Trapano a percussione', 'Edilizia')," +
-                "('Silverline', 15, 15, 'Cazzuola', 'Edilizia');", ItemBox.Type.INSERT));
+        boxOpt.addBoxOpt(new ItemBox("Inserimento dati nella tabella PRODOTTO", "INSERT INTO PRODOTTO (ID_prodotto, marca, dimensione, costo, descrizione, sigla)" +
+                "VALUES (?, 'Bosh', 20.5, 300, 'Trapano a percussione', 'Edilizia');", ItemBox.Type.INSERT));
 
         return boxOpt;
     }

@@ -2,9 +2,8 @@ package it.unisa.bd.progetto;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class ProgettoGUI {
     private JComboBox optList;
@@ -16,15 +15,22 @@ public class ProgettoGUI {
     private JTextField inputTxt3;
     private JTextField inputTxt4;
     private JTextField inputTxt5;
-    private JButton caricaButton;
+    private JButton avviaBtn;
     private JTextArea outputArea;
     private JPanel outputPanel;
     private JPanel start;
     private Connect connect;
+    private ItemBox ib;
 
     public ProgettoGUI() {
         connect = new Connect("progetto", "root", "password");
         BoxOpt opt = Operation.createDefaultOpt();
+        ArrayList<JTextField> inputText = new ArrayList<>();
+        inputText.add(inputTxt1);
+        inputText.add(inputTxt2);
+        inputText.add(inputTxt3);
+        inputText.add(inputTxt4);
+        inputText.add(inputTxt5);
 
         for (int i = 0; i < opt.getSize(); ++i) {
             optList.addItem(opt.getIndex(i));
@@ -34,7 +40,7 @@ public class ProgettoGUI {
 
 
         setBtn.addActionListener(e -> {
-            ItemBox ib = (ItemBox) optList.getItemAt(optList.getSelectedIndex());
+            ib = (ItemBox) optList.getItemAt(optList.getSelectedIndex());
             //System.out.println(ib.getCmd());
 
             /**
@@ -46,7 +52,7 @@ public class ProgettoGUI {
             if (ItemBox.Type.SELECT == ib.getType()) {
                 //System.out.println(ib.getCmd());
                 try {
-                    ResultSet rs = Operation.runOperation(connect, ib);
+                    ResultSet rs = Operation.runSelect(connect, ib);
                     outputArea.setText("");
                     /**
                      * Prendi i metadati per poter capire quante colonne stampare
@@ -63,6 +69,60 @@ public class ProgettoGUI {
                         }
 
                         outputArea.append("\n");
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } else {
+                /**
+                 * Definiamo quanti input text servono
+                 */
+                String str = ib.getCmd();
+                char find = '?';
+                int counter = 0;
+
+                /**
+                 * Resettiamo eventuali vecchi input
+                 */
+                for (JTextField tmp : inputText) {
+                    tmp.setText("");
+                    tmp.setVisible(false);
+                }
+
+                for (int i = 0; i < str.length() && counter < inputText.size(); i++) {
+                    if (str.charAt(i) == find) {
+                        inputText.get(counter).setVisible(true);
+                        counter++;
+                    }
+                }
+            }
+        });
+
+        avviaBtn.addActionListener(e -> {
+            if (ItemBox.Type.INSERT == ib.getType()) {
+                try {
+                    ArrayList<String> str = new ArrayList<>();
+
+                    /**
+                     * Prendimao gli input per quanti servono
+                     */
+                    String string = ib.getCmd();
+                    char find = '?';
+                    int counter = 0;
+
+                    for (int i = 0; i < string.length() && counter < inputText.size(); i++) {
+                        if (string.charAt(i) == find) {
+                            str.add(inputText.get(counter).getText());
+                            counter++;
+                        }
+                    }
+
+                    int ret = Operation.runUpdate(connect, ib, str);
+
+                    if (ret > 0) {
+                        System.out.println("Dato inserito con successo");
+                    } else {
+                        throw new RuntimeException("Errore nell'input");
                     }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
