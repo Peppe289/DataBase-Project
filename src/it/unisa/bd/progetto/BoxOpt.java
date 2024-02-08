@@ -22,6 +22,10 @@ public class BoxOpt {
         list.add(opt);
     }
 
+    public int getSize() {
+        return list.size();
+    }
+
     public ItemBox getIndex(int index) {
         return list.get(index);
     }

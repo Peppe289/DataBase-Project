@@ -26,10 +26,9 @@ public class ProgettoGUI {
         connect = new Connect("progetto", "root", "password");
         BoxOpt opt = Operation.createDefaultOpt();
 
-        optList.addItem(opt.getIndex(0));
-
-        optList.addItem(opt.getIndex(1));
-
+        for (int i = 0; i < opt.getSize(); ++i) {
+            optList.addItem(opt.getIndex(i));
+        }
         outputPanel.setVisible(false);
         inputPanel.setVisible(false);
 
@@ -45,7 +44,7 @@ public class ProgettoGUI {
             inputPanel.setVisible(!(ib.getType() == ItemBox.Type.SELECT));
 
             if (ItemBox.Type.SELECT == ib.getType()) {
-                System.out.println(ib.getCmd());
+                //System.out.println(ib.getCmd());
                 try {
                     ResultSet rs = Operation.runOperation(connect, ib);
                     outputArea.setText("");
