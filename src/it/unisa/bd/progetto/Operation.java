@@ -3,10 +3,7 @@ package it.unisa.bd.progetto;
 import com.mysql.cj.x.protobuf.MysqlxPrepare;
 
 import javax.swing.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 /**
