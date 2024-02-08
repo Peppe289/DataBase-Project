@@ -97,7 +97,13 @@ public class Operation {
                 ");", ItemBox.Type.SELECT));
 
         boxOpt.addBoxOpt(new ItemBox("Inserimento dati nella tabella PRODOTTO", "INSERT INTO PRODOTTO (ID_prodotto, marca, dimensione, costo, descrizione, sigla)" +
-                "VALUES (?, 'Bosh', 20.5, 300, 'Trapano a percussione', 'Edilizia');", ItemBox.Type.INSERT));
+                "VALUES (?, ?, ?, ?, ?, ?);", ItemBox.Type.INSERT));
+
+        boxOpt.addBoxOpt(new ItemBox("Elimina Elemento", "DELETE FROM PRODOTTO WHERE ID_prodotto = ?;", ItemBox.Type.DELETE));
+
+        boxOpt.addBoxOpt(new ItemBox("Aggiorna Elemento", "UPDATE PRODOTTO\n" +
+                "SET marca = ?, dimensione = ?, costo = ?, descrizione = ?, sigla = ?\n" +
+                "WHERE ID_prodotto = ?;", ItemBox.Type.UPDATE));
 
         return boxOpt;
     }

@@ -19,6 +19,7 @@ public class ProgettoGUI {
     private JTextArea outputArea;
     private JPanel outputPanel;
     private JPanel start;
+    private JTextField inputTxt6;
     private Connect connect;
     private ItemBox ib;
 
@@ -31,6 +32,7 @@ public class ProgettoGUI {
         inputText.add(inputTxt3);
         inputText.add(inputTxt4);
         inputText.add(inputTxt5);
+        inputText.add(inputTxt6);
 
         for (int i = 0; i < opt.getSize(); ++i) {
             optList.addItem(opt.getIndex(i));
@@ -99,34 +101,32 @@ public class ProgettoGUI {
         });
 
         avviaBtn.addActionListener(e -> {
-            if (ItemBox.Type.INSERT == ib.getType()) {
-                try {
-                    ArrayList<String> str = new ArrayList<>();
+            ArrayList<String> str = new ArrayList<>();
 
-                    /**
-                     * Prendimao gli input per quanti servono
-                     */
-                    String string = ib.getCmd();
-                    char find = '?';
-                    int counter = 0;
+            /**
+             * Prendimao gli input per quanti servono
+             */
+            String string = ib.getCmd();
+            char find = '?';
+            int counter = 0;
 
-                    for (int i = 0; i < string.length() && counter < inputText.size(); i++) {
-                        if (string.charAt(i) == find) {
-                            str.add(inputText.get(counter).getText());
-                            counter++;
-                        }
-                    }
-
-                    int ret = Operation.runUpdate(connect, ib, str);
-
-                    if (ret > 0) {
-                        System.out.println("Dato inserito con successo");
-                    } else {
-                        throw new RuntimeException("Errore nell'input");
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+            for (int i = 0; i < string.length() && counter < inputText.size(); i++) {
+                if (string.charAt(i) == find) {
+                    str.add(inputText.get(counter).getText());
+                    counter++;
                 }
+            }
+
+            try {
+                int ret = Operation.runUpdate(connect, ib, str);
+
+                if (ret > 0) {
+                    System.out.println("Dato gestito con successo");
+                } else {
+                    throw new RuntimeException("Errore");
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
             }
         });
 
