@@ -2,6 +2,12 @@ package it.unisa.bd.progetto;
 
 import java.sql.*;
 
+/**
+ * La classe si occupa di avviare la connessione tramite API.
+ * I due costruttori sono fatti per permettere di avviare la
+ * connessione in locale con la porta di default oppure utilizzare
+ * una porta e indirizzo custom
+ */
 public class Connect {
     private Connection con;
     private String name_db;

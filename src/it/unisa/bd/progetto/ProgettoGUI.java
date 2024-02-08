@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ProgettoGUI {
-    private JComboBox opt;
+    private JComboBox optList;
     private JButton setBtn;
     private JPanel setCmd;
     private JPanel inputGUI;
@@ -20,6 +20,16 @@ public class ProgettoGUI {
 
     public ProgettoGUI() {
 
+        BoxOpt opt = Operation.createDefaultOpt();
+
+        optList.addItem(opt.getIndex(0));
+
+        optList.addActionListener(e -> {
+            ItemBox ib = (ItemBox) optList.getItemAt(optList.getSelectedIndex());
+            System.out.println(ib.getCmd());
+        });
+
+        //optList.addItem(opt.getIndex(0));
     }
 
     public static void main(String[] args) {
