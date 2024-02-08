@@ -25,7 +25,7 @@ public class Connect {
             // usa l'url di default se non è specificato
             this.url = default_url + name_db;
             this.con = DriverManager.getConnection(url, user, password);
-            //System.out.println("Connessione OK \n");
+            System.out.println("Connessione OK \n");
         }
         catch(Exception e) {
             System.out.println("Connessione Fallita\n");
@@ -41,7 +41,7 @@ public class Connect {
             // usa l'url di default se non è specificato
             this.url = Connect.addr + addr + ":" + port + "/" + name_db;
             this.con = DriverManager.getConnection(url, user, password);
-            //System.out.println("Connessione OK \n");
+            System.out.println("Connessione OK \n");
         }
         catch(Exception e) {
             System.out.println("Connessione Fallita\n");

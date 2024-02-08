@@ -9,9 +9,18 @@ public class ItemBox {
     public String name;
     public String cmd;
 
+    /**
+     * Bisogna tenere traccia del tipo di operazione:
+     * Operazioni con input e valore di uscita senza output:
+     * @INSERT,
+     * @UPDATE,
+     * @DELETE
+     */
     enum Type {
         SELECT,
-        INSERT
+        INSERT,
+        UPDATE,
+        DELETE
     }
 
     Type type; // tipo di comando
